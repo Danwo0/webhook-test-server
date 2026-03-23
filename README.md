@@ -1,6 +1,6 @@
 # Webhook Test Server
 
-A simple, configurable webhook test server. Receives webhooks, logs headers and payloads, and returns a configurable HTTP status. Authentication and response behavior can be changed at runtime via an admin API—no restart needed.
+Configurable webhook test server. Logs incoming headers and payloads, returns a configurable status. All settings can be changed at runtime via admin API — no restart needed.
 
 ## Setup
 
@@ -12,28 +12,28 @@ npm start
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `ADMIN_USERNAME` | `admin` | Basic auth username for admin endpoints |
+| Variable         | Default    | Description                             |
+| ---------------- | ---------- | --------------------------------------- |
+| `ADMIN_USERNAME` | `admin`    | Basic auth username for admin endpoints |
 | `ADMIN_PASSWORD` | `changeme` | Basic auth password for admin endpoints |
-| `PORT` | `3000` | Server port |
+| `PORT`           | `3000`     | Server port                             |
 
 ## Endpoints
 
 ### Webhook
 
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| Any | `/webhook` | Configurable | Receives webhooks, logs headers + body, returns configured status |
+| Method | Path       | Auth         | Description                                                       |
+| ------ | ---------- | ------------ | ----------------------------------------------------------------- |
+| Any    | `/webhook` | Configurable | Receives webhooks, logs headers + body, returns configured status |
 
 ### Admin (all require Basic auth from `.env`)
 
-| Method | Path | Description |
-|---|---|---|
-| GET | `/admin/config` | View current configuration |
-| PATCH | `/admin/config` | Update configuration at runtime |
-| GET | `/admin/logs` | View captured request logs |
-| DELETE | `/admin/logs` | Clear all captured logs |
+| Method | Path            | Description                     |
+| ------ | --------------- | ------------------------------- |
+| GET    | `/admin/config` | View current configuration      |
+| PATCH  | `/admin/config` | Update configuration at runtime |
+| GET    | `/admin/logs`   | View captured request logs      |
+| DELETE | `/admin/logs`   | Clear all captured logs         |
 
 ## Configuration
 
@@ -56,26 +56,26 @@ Send a `PATCH` to `/admin/config` with any of the following fields (all optional
 
 ### Auth Modes
 
-| Mode | Behavior |
-|---|---|
-| `none` | No authentication required (default) |
+| Mode    | Behavior                                                             |
+| ------- | -------------------------------------------------------------------- |
+| `none`  | No authentication required (default)                                 |
 | `basic` | Requires Basic auth matching `webhookBasicUser` / `webhookBasicPass` |
-| `token` | Requires `Authorization: Bearer <webhookToken>` header |
-| `both` | Accepts either basic or token authentication |
+| `token` | Requires `Authorization: Bearer <webhookToken>` header               |
+| `both`  | Accepts either basic or token authentication                         |
 
 ### Whitelist
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `allowedIPs` | `string[]` | `[]` (allow all) | IP addresses or CIDR ranges to accept. Empty = no restriction. |
+| Field             | Type                | Default               | Description                                                             |
+| ----------------- | ------------------- | --------------------- | ----------------------------------------------------------------------- |
+| `allowedIPs`      | `string[]`          | `[]` (allow all)      | IP addresses or CIDR ranges to accept. Empty = no restriction.          |
 | `requiredHeaders` | `{ name, value }[]` | `[]` (no requirement) | Headers that **all** must be present and match. Empty = no restriction. |
 
 ### Rate Limiting
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `rateLimitPerIp` | `number` | `10` | Max requests per IP per minute. `0` = disabled. |
-| `rateLimitGlobal` | `number` | `30` | Max total requests per minute across all IPs. `0` = disabled. |
+| Field             | Type     | Default | Description                                                   |
+| ----------------- | -------- | ------- | ------------------------------------------------------------- |
+| `rateLimitPerIp`  | `number` | `10`    | Max requests per IP per minute. `0` = disabled.               |
+| `rateLimitGlobal` | `number` | `30`    | Max total requests per minute across all IPs. `0` = disabled. |
 
 ## Security
 
