@@ -165,7 +165,10 @@ function checkWebhookAuth(req, res) {
 
 // --- Webhook endpoint (catches all methods) ---
 
-app.all("/webhook", (req, res) => {
+app.all("/webhook/*splat", webhookHandler);
+app.all("/webhook", webhookHandler);
+
+function webhookHandler(req, res) {
   if (!checkWhitelist(req, res)) return;
   if (!checkWebhookAuth(req, res)) return;
 
@@ -182,7 +185,7 @@ app.all("/webhook", (req, res) => {
   console.log(JSON.stringify(entry, null, 2));
 
   res.status(config.responseStatus).json(config.responseBody);
-});
+}
 
 // --- Admin endpoints (all require basic auth from .env) ---
 
